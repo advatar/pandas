@@ -25,6 +25,8 @@ ENV DEBIAN_FRONTEND=dialog
 
 # Clone pandas repo
 RUN mkdir "$pandas_home" \
+    && git config --global user.email "alexander@sellstrom.me" \
+    && git config --global user.name "Alexander Sellström" \
     && git clone "https://github.com/$gh_username/pandas.git" "$pandas_home" \
     && cd "$pandas_home" \
     && git remote add upstream "https://github.com/pandas-dev/pandas.git" \
