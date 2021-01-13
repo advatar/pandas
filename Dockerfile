@@ -13,7 +13,7 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-utils dialog 2>&1 \
     #
     # Verify git, process tools, lsb-release (common in install instructions for CLIs) installed
-    && apt-get -y install git iproute2 procps iproute2 lsb-release \
+    && apt-get -y install git iproute2 procps iproute2 build-essential lsb-release \
     #
     # cleanup
     && apt-get autoremove -y \
