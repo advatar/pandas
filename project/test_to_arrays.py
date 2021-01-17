@@ -819,15 +819,23 @@ class ToArraysTest(unittest.TestCase):
 		pd.testing.assert_series_equal(ret,pd.Series([2.0, 1.0, 1.0, 1.0 , np.nan], index=['a', 'b', 'c', 'd','e']))
 		
 	def test_tuple_of_tuples(self):
-		print("test_tuple_of_tuples")
-		data = (("a","b"),("c","d"))
+		print("\n*** test_tuple_of_tuples ***")
+		data = (('a','b'),('c','d'))
 		print("data", data)
 		columns = []
 		arrays, columns = to_arrays(data,columns)
-		print("arrays",arrays, "columns", columns)
+		print("arrays", arrays, "columns", columns)
 		#expected = pd.array(pd.array(['a','c'], dtype=object),pd.array(['b','c'], dtype=object))
 		#self.assertEqual(arrays, expected)
 
+	def test_categorical(self):
+		print("\n*** test_categorical ***")
+		data = pd.Series(["a", "b", "c", "a"], dtype="category")
+		print("data", data)
+		columns = []
+		arrays, columns = to_arrays(data,columns)
+		print("arrays", arrays, "columns", columns)
+		
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
