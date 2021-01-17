@@ -846,6 +846,13 @@ class ToArraysTest(unittest.TestCase):
 		arrays, columns = to_arrays(data,columns)
 		print("arrays", arrays, "columns", columns)
 
+	def test_mapping(self):
+		print("\n*** test_mapping ***")
+		data = abc.Mapping()
+		print("data", data)
+		columns = []
+		arrays, columns = to_arrays(data,columns)
+		print("arrays", arrays, "columns", columns)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
