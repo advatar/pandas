@@ -822,7 +822,8 @@ class ToArraysTest(unittest.TestCase):
 		print("test_tuple_of_tuples")
 		data = (("a","b"),("c","d"))
 		print("data", data)
-		arrays, columns = to_arrays(data)
+		columns = []
+		arrays, columns = to_arrays(data,columns)
 		print("arrays",arrays, "columns", columns)
 		
 
