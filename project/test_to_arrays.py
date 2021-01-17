@@ -835,7 +835,17 @@ class ToArraysTest(unittest.TestCase):
 		columns = []
 		arrays, columns = to_arrays(data,columns)
 		print("arrays", arrays, "columns", columns)
-		
+
+	def test_series(self):
+		print("\n*** test_series ***")
+		s1 = pd.Series(["a", "b", "c", "a"])
+		s2 = pd.Series(["a", "e", "f", "b"])
+		data = (s1,s2)
+		print("data", data)
+		columns = []
+		arrays, columns = to_arrays(data,columns)
+		print("arrays", arrays, "columns", columns)
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
