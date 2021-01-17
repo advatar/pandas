@@ -825,7 +825,8 @@ class ToArraysTest(unittest.TestCase):
 		columns = []
 		arrays, columns = to_arrays(data,columns)
 		print("arrays",arrays, "columns", columns)
-		
+		expected = [["a","c"],["b","c"]]
+		self.assertEqual(arrays, expected)
 
 
 if __name__ == '__main__':
