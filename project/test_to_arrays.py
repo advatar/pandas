@@ -830,14 +830,18 @@ class ToArraysTest(unittest.TestCase):
         data = [Categorical([1, 2, 3, 4, 3, 3], categories=[1, 2, 3, 4, 5])] 
         print("test1")
         print(data)
-        columns = []
+        columns = None
         arrays, columns = to_arrays(data,columns)
         print("\narrays", arrays, "columns", columns)
         self.assertEqual(arrays, data) #arrays in, arrays out
         print("test2")
         data = Categorical(Series(["a", "b", "c", "a"]))
         print(data)
+        print(Series(["a", "b", "c", "a"]))
+        print(["a", "b", "c", "a"])
+        print([pd.array(['a', 'b', 'c', 'a'], dtype=object)] )
         arrays, columns = to_arrays(data,columns)
+        #print(isinstance(arrays))
         print("\narrays", arrays, "columns", columns)
         #self.assertEqual(arrays, Series(["a", "b", "c", "a"]))
 
@@ -846,10 +850,56 @@ class ToArraysTest(unittest.TestCase):
         s1 = pd.Series(["a", "b", "c", "a"])
         s2 = pd.Series(["a", "e", "f", "b"])
         data = (s1,s2)
-        print("data", data)
+        print(data)
         columns = []
         arrays, columns = to_arrays(data,columns)
         print("arrays", arrays, "columns", columns)
+
+    def test_abc_series(self):
+        print("\n*** test_abc_series ***")
+        s1 = pd.Series(["a", "b", "c", "a"])
+        s2 = pd.Series(["a", "e", "f", "b"])
+
+        data = (s1)
+        print("\ndata")
+        print(data)
+
+        columns = None
+        arrays, columns = to_arrays(data,columns)
+        print("\ncolumns (s1) None, Index = None")
+        print("arrays", arrays, "columns", columns)
+
+        columns = [0]
+        arrays, columns = to_arrays(data,columns)
+        print("\ncolumns (s1) one only [0], Index = None")
+        print("arrays", arrays, "columns", columns)
+
+        data = (s1,s2)
+        print("\ndata")
+        print(data)
+
+
+        columns = None
+        arrays, columns = to_arrays(data,columns)
+        print("\ncolumns None, Index = None")
+        print("arrays", arrays, "columns", columns)
+
+        columns = [0]
+        arrays, columns = to_arrays(data,columns)
+        print("\ncolumns one only [0], Index = None")
+        print("arrays", arrays, "columns", columns)
+
+        columns = [0,1,2,3] # this is the same as None since the default is to use all
+        arrays, columns = to_arrays(data,columns)
+        print("\ncolumns all [0,1,2,3], Index = None")
+        print("arrays", arrays, "columns", columns)
+
+        columns = [0,3]
+        arrays, columns = to_arrays(data,columns)
+        print("\ncolumns first and last [0,3], Index = None")
+        print("arrays", arrays, "columns", columns)
+
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
