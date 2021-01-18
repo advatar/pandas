@@ -56,6 +56,7 @@ from pandas.core.dtypes.generic import (
 
 from pandas.core import algorithms, common as com
 from pandas.core.arrays import Categorical
+from pandas.core.series import Series
 from pandas.core.construction import extract_array, sanitize_array
 from pandas.core.indexes import base as ibase
 from pandas.core.indexes.api import (
@@ -781,9 +782,8 @@ def sanitize_index(data, index: Index):
     return data
 
 class ToArraysTest(unittest.TestCase):
-	"""
-    
-	Sig:  to_arrays(data, columns, coerce_float: bool = False, dtype: Optional[DtypeObj] = None)
+    """
+    Sig:  to_arrays(data, columns, coerce_float: bool = False, dtype: Optional[DtypeObj] = None)
     Pre:
     Post:
 	Parameters:
@@ -804,55 +804,52 @@ class ToArraysTest(unittest.TestCase):
 	- ABCSeries
 	- Index
 	- something else (perhaps set of tuple/list???)	
-
     """
-	logger = logging.getLogger('ToArraysTest')
+    logger = logging.getLogger('ToArraysTest')
 
-	a = pd.Series([1, 1,      1, np.nan], index=['a', 'b', 'c', 'd'])
-	b = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])
-	#c = pd.Series([1, np.nan, 1, np.nan],[1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])
-	scalar = 1.0
-	fill = 0.0
+    a = pd.Series([1, 1,      1, np.nan], index=['a', 'b', 'c', 'd'])
+    b = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])
+    #c = pd.Series([1, np.nan, 1, np.nan],[1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])
+    scalar = 1.0
+    fill = 0.0
 	
-	def test_dataframe(self):
-		ret = self.a.add(self.b, fill_value = self.fill)
-		pd.testing.assert_series_equal(ret,pd.Series([2.0, 1.0, 1.0, 1.0 , np.nan], index=['a', 'b', 'c', 'd','e']))
-		
-	def test_tuple_of_tuples(self):
-		print("\n*** test_tuple_of_tuples ***")
-		data = (('a','b'),('c','d'))
-		print("data", data)
-		columns = []
-		arrays, columns = to_arrays(data,columns)
-		print("arrays", arrays, "columns", columns)
-		#expected = pd.array(pd.array(['a','c'], dtype=object),pd.array(['b','c'], dtype=object))
-		#self.assertEqual(arrays, expected)
+    def test_dataframe(self):
+        ret = self.a.add(self.b, fill_value = self.fill)
+        pd.testing.assert_series_equal(ret,pd.Series([2.0, 1.0, 1.0, 1.0 , np.nan], index=['a', 'b', 'c', 'd','e']))
+    def test_tuple_of_tuples(self):
+        print("\n*** test_tuple_of_tuples ***")
+        data = (('a','b'),('c','d'))
+        print("data", data)
+        columns = []
+        arrays, columns = to_arrays(data,columns)
+        print("arrays", arrays, "columns", columns)
+        #expected = pd.array(pd.array(['a','c'], dtype=object),pd.array(['b','c'], dtype=object))
+        #self.assertEqual(arrays, expected)
+    def test_categorical(self):
+        print("\n*** test_categorical ***")
+        data = [Categorical([1, 2, 3, 4, 3, 3], categories=[1, 2, 3, 4, 5])] 
+        print("test1")
+        print(data)
+        columns = []
+        arrays, columns = to_arrays(data,columns)
+        print("\narrays", arrays, "columns", columns)
+        self.assertEqual(arrays, data) #arrays in, arrays out
+        print("test2")
+        data = Categorical(Series(["a", "b", "c", "a"]))
+        print(data)
+        arrays, columns = to_arrays(data,columns)
+        print("\narrays", arrays, "columns", columns)
+        #self.assertEqual(arrays, Series(["a", "b", "c", "a"]))
 
-	def test_categorical(self):
-		print("\n*** test_categorical ***")
-		data = pd.Series(["a", "b", "c", "a"], dtype="category")
-		print("data", data)
-		columns = []
-		arrays, columns = to_arrays(data,columns)
-		print("arrays", arrays, "columns", columns)
-
-	def test_series(self):
-		print("\n*** test_series ***")
-		s1 = pd.Series(["a", "b", "c", "a"])
-		s2 = pd.Series(["a", "e", "f", "b"])
-		data = (s1,s2)
-		print("data", data)
-		columns = []
-		arrays, columns = to_arrays(data,columns)
-		print("arrays", arrays, "columns", columns)
-
-	def test_mapping(self):
-		print("\n*** test_mapping ***")
-		data = abc.Mapping()
-		print("data", data)
-		columns = []
-		arrays, columns = to_arrays(data,columns)
-		print("arrays", arrays, "columns", columns)
+    def test_series(self):
+        print("\n*** test_series ***")
+        s1 = pd.Series(["a", "b", "c", "a"])
+        s2 = pd.Series(["a", "e", "f", "b"])
+        data = (s1,s2)
+        print("data", data)
+        columns = []
+        arrays, columns = to_arrays(data,columns)
+        print("arrays", arrays, "columns", columns)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
