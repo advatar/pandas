@@ -902,6 +902,14 @@ class ToArraysTest(unittest.TestCase):
         arrays, columns = to_arrays(data,columns)
         print("\ncolumns None, index=['a', 'b', 'c', 'd'] and index=['a', 'b', 'd', 'e'] ")
         print("arrays", arrays, "columns", columns)
+        
+    def test_ndarray(self):
+        print("\n*** test_ndarray ***")
+        data = np.array([[1, 2, 3], [4, 5, 6]], np.int32)
+        print("data", data)
+        columns = []
+        arrays, columns = to_arrays(data,columns)
+        print("arrays", arrays, "columns", columns)
 
 
 if __name__ == '__main__':
