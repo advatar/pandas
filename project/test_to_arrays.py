@@ -845,16 +845,6 @@ class ToArraysTest(unittest.TestCase):
         print("\narrays", arrays, "columns", columns)
         #self.assertEqual(arrays, Series(["a", "b", "c", "a"]))
 
-    def test_series(self):
-        print("\n*** test_series ***")
-        s1 = pd.Series(["a", "b", "c", "a"])
-        s2 = pd.Series(["a", "e", "f", "b"])
-        data = (s1,s2)
-        print(data)
-        columns = []
-        arrays, columns = to_arrays(data,columns)
-        print("arrays", arrays, "columns", columns)
-
     def test_abc_series(self):
         print("\n*** test_abc_series ***")
         s1 = pd.Series(["a", "b", "c", "a"])
