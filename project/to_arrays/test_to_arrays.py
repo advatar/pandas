@@ -607,6 +607,7 @@ def _list_of_series_to_arrays(
     aligned_values = []
     for s in data:
         index = getattr(s, "index", None)
+        print("branch index ",index)
         if index is None:
             print("branch 2")
             index = ibase.default_index(len(s))
@@ -852,10 +853,11 @@ class ToArraysTest(unittest.TestCase):
         #self.assertEqual(arrays, Series(["a", "b", "c", "a"]))
 
     def test_abc_series(self):
-        print("\n*** test_abc_series ***")
-        s1 = pd.Series(["a", "b", "c", "a"])
-        s2 = pd.Series(["a", "e", "f", "b"])
 
+        print("\n*** test_abc_series ***")
+        s1 = pd.Series(["a", "b", "c", "a"], index = None)
+        s2 = pd.Series(["a", "e", "f", "b"], index = None)
+        # if no index given it is computed, do not know how to force None here?
         data = (s1)
         print("\ndata")
         print(data)
