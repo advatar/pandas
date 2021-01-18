@@ -878,7 +878,6 @@ class ToArraysTest(unittest.TestCase):
         print("\ndata")
         print(data)
 
-
         columns = None
         arrays, columns = to_arrays(data,columns)
         print("\ncolumns None, Index = None")
@@ -899,6 +898,14 @@ class ToArraysTest(unittest.TestCase):
         print("\ncolumns first and last [0,3], Index = None")
         print("arrays", arrays, "columns", columns)
 
+        s1 = pd.Series([1, 1,      1, np.nan], index=['a', 'b', 'c', 'd'])
+        s2 = pd.Series([1, np.nan, 1, np.nan], index=['a', 'b', 'd', 'e'])
+ 
+        data = (s1,s2)
+        columns = None
+        arrays, columns = to_arrays(data,columns)
+        print("\ncolumns None, index=['a', 'b', 'c', 'd'] and index=['a', 'b', 'd', 'e'] ")
+        print("arrays", arrays, "columns", columns)
 
 
 if __name__ == '__main__':
