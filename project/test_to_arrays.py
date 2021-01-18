@@ -597,6 +597,7 @@ def _list_of_series_to_arrays(
     dtype: Optional[DtypeObj] = None,
 ) -> Tuple[List[Scalar], Union[Index, List[Axis]]]:
     if columns is None:
+        print("branch 1")
         # We know pass_data is non-empty because data[0] is a Series
         pass_data = [x for x in data if isinstance(x, (ABCSeries, ABCDataFrame))]
         columns = get_objs_combined_axis(pass_data, sort=False)
@@ -607,11 +608,14 @@ def _list_of_series_to_arrays(
     for s in data:
         index = getattr(s, "index", None)
         if index is None:
+            print("branch 2")
             index = ibase.default_index(len(s))
 
         if id(index) in indexer_cache:
+            print("branch 3")
             indexer = indexer_cache[id(index)]
         else:
+            print("branch 4")
             indexer = indexer_cache[id(index)] = index.get_indexer(columns)
 
         values = extract_array(s, extract_numpy=True)
@@ -620,11 +624,13 @@ def _list_of_series_to_arrays(
     values = np.vstack(aligned_values)
 
     if values.dtype == np.object_:
+        print("branch 5")
         content = list(values.T)
         columns = _validate_or_indexify_columns(content, columns)
         content = _convert_object_array(content, dtype=dtype, coerce_float=coerce_float)
         return content, columns
     else:
+        print("branch 6")
         return values.T, columns
 
 
