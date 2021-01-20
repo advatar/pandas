@@ -12,6 +12,8 @@ import logging  		# noqa
 import numpy as np
 import pandas as pd
 
+from staticfg import CFGBuilder
+
 __all__ = []
 
 
