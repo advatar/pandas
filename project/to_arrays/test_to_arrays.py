@@ -57,7 +57,7 @@ from pandas.core.dtypes.generic import (
 from pandas.core import algorithms, common as com
 from pandas.core.arrays import Categorical
 from pandas.core.series import Series
-from pandas.core.construction import extract_array, sanitize_array
+from pandas.core.construction import array, extract_array, sanitize_array
 from pandas.core.indexes import base as ibase
 from pandas.core.indexes.api import (
     Index,
@@ -605,7 +605,10 @@ def _list_of_series_to_arrays(
     indexer_cache: Dict[int, Scalar] = {}
 
     aligned_values = []
+    print("branch data type", type(data))
     for s in data:
+        print("branch s type", type(s))
+        print("branch s",s)
         index = getattr(s, "index", None)
         print("branch index ",index)
         if index is None:
@@ -906,10 +909,31 @@ class ToArraysTest(unittest.TestCase):
         print("arrays", arrays, "columns", columns)
         
     def test_ndarray(self):
+        print("\n*** branch test_ndarray ***")
         print("\n*** test_ndarray ***")
         data = np.array([[1, 2, 3], [4, 5, 6]], np.int32)
         print("data", data)
+        index = getattr(data, "index", None)
+        print("branch ndarray index", index)
+        index = getattr(data[0], "index", None)
+        print("branch ndarray index", index)
         columns = []
+        arrays, columns = to_arrays(data,columns)
+        print("arrays", arrays, "columns", columns)
+
+    def test_empty(self):
+        print("\n*** test_empty ***")
+        data = []
+        print("data", data)
+        columns = []
+        arrays, columns = to_arrays(data,columns)
+        print("arrays", arrays, "columns", columns)
+
+    def test_None(self):
+        print("\n*** test_none ***")
+        data = [[None]]
+        print("data", data)
+        columns = None
         arrays, columns = to_arrays(data,columns)
         print("arrays", arrays, "columns", columns)
 
